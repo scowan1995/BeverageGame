@@ -1,58 +1,63 @@
-from time import sleep as shlep
+import time
 from random import randint as alan
+from classes import Player, Players
+import rounds.capitals as r
+import rounds.random as ran
+import rounds.arm as arm
+from inspect import getmembers, isfunction
+import os
 
-class Player:
-    def __init__(self, name):
-        self.name=name
 
-
-    def getName(self):
-        return self.name
-capitals = []
+def mprint(s):
+    height, width = os.popen('stty size', 'r').read().split()
     
+    n_chars = int((int(width)-len(s))/2)
 
-def capital_round(n, players):
-    print("\n\n -------------ROUND %d----------\n %s:\n" %(n, "Random"))
-    # import capitals
-    with open('capitals.txt', 'r') as f:
-        p = f.read().splitlines()
-        capitals = [x.split(',') for x in p]
-
-    for player in players:
-        print(player.getName() + " YOUR TURN")
-        capital = capitals[alan(0, len(capitals)-1)]
-        answer = input("What is the capital of " +  capital[0])
-        if answer==capital[1]:
-            print("Correct! Pick a person to drink!")
-        else:
-            print("WRONG! Drink!")
-
-def random(n, players):
-    print("\n\n -------------ROUND %d----------\n %s:\n" %(n, "Random"))
-    i=10
-    while i>0:
-        print(players[alan(0, len(players) - 1)].getName())
-        shlep(1)
-        i=i-1
-
+    for i in range(0,n_chars):
+        s = ' ' + s + ' '
+    
+    print(s)
+    return
 
 def main():
+
+    
     num = input("Enter number of players:\n")
-    players = []
+    players = Players()
     num = int(num)
     while num>0:
         name = input("Enter a player name:")
         new_player = Player(name)
-        players.append(new_player)
+        players.addPlayer(new_player)
         num=num-1
-
-    rounds = [capital_round, random]
+   
     n=0
+    rounds=[
+        (r.capital_round, "Capitals"),
+        (ran.random, "Random"),
+        (arm.arm, "Arm Wrestle")
+    ]
+    
+    #for item in things:
+    #    funcs = [rd for rd in getmembers(things) if isfunction(rd[1])]
+    #    for thing in funcs:
+    #        rounds.append(thing)
+    #for roun in rounds:
+    #    print(roun)
+    #n=0
     while True:
         curr_round_num=alan(0,len(rounds)-1)
         curr_round=rounds[curr_round_num]
         n=n+1
-        curr_round(n,players)
+        time.sleep(2)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        s = "-------Round 3-------"
+        mprint(s)
+        time.sleep(1)
+        mprint("------------ %s ------------" %curr_round[1])
+        print("\n")
+        time.sleep(1)
+        curr_round[0](players)
 
 
 if __name__=="__main__":
