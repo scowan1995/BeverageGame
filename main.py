@@ -6,6 +6,21 @@ import rounds.random as ran
 import rounds.arm as arm
 from inspect import getmembers, isfunction
 import os
+import sys
+
+
+DEBUG = len(sys.argv)>1 and sys.argv[1] == 'debug'
+
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 
 def mprint(s):
@@ -20,7 +35,7 @@ def mprint(s):
     return
 
 def main():
-
+    
     
     num = input("Enter number of players:\n")
     players = Players()
@@ -51,6 +66,11 @@ def main():
         n=n+1
         time.sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
+        x=20
+        y=20
+        text='[Press Enter to Continue]'
+        sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (x, y, text))
+        sys.stdout.flush()
         s = "-------Round 3-------"
         mprint(s)
         time.sleep(1)
