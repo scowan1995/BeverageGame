@@ -5,9 +5,9 @@ The owner of this repository does not condone the use of alcohol by those under 
 
 ## Use ##
 
-``bash
+```bash
 python3 main.py
-``
+```
 The program will then prompt for a number of players, and their names
 
 Several rounds are defined for play and the program will continually randomly select and play a round
